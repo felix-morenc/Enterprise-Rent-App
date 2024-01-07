@@ -5,7 +5,7 @@ on: push
 jobs:
   carservice:
     runs-on: ubuntu-latest
-    name: Java 17 build, test, deliver product-service container
+    name: Java 17 build, test, deliver car-service container
     steps:
       - name: Check out repository
         uses: actions/checkout@v3

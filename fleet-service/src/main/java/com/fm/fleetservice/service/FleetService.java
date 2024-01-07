@@ -54,6 +54,7 @@ public class FleetService {
 
     private FleetResponse mapToFleetResponse(FleetInfo fleetInfo) {
         return FleetResponse.builder()
+                .id(fleetInfo.getId())
                 .licencePlate(fleetInfo.getLicencePlate())
                 .location(fleetInfo.getLocation())
                 .build();

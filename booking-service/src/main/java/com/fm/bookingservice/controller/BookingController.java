@@ -2,6 +2,7 @@ package com.fm.bookingservice.controller;
 
 import com.fm.bookingservice.dto.BookingRequest;
 import com.fm.bookingservice.dto.BookingResponse;
+import com.fm.bookingservice.model.Booking;
 import com.fm.bookingservice.service.BookingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -23,6 +24,28 @@ public class BookingController {
     }
 
     @GetMapping
+    @ResponseStatus(HttpStatus.OK)
+    public BookingResponse getBookingByBookingReference
+            (@RequestParam String bookingReference) {
+        return bookingService.getBookingByReference(bookingReference);
+    }
+
+    @DeleteMapping("/delete")
+    @ResponseStatus(HttpStatus.OK)
+    public void deleteBookingByBookingReference
+            (@RequestParam String bookingReference){
+        bookingService.deleteBookingByReference(bookingReference);
+    }
+
+    @PutMapping("/update")
+    @ResponseStatus(HttpStatus.OK)
+    public BookingResponse updateBooking
+            (@RequestBody Booking booking){
+        return bookingService.updateBooking(booking);
+    }
+
+
+    @GetMapping("/all")
     @ResponseStatus(HttpStatus.OK)
     public List<BookingResponse> getAllBookings() {
         return bookingService.getAllBookings();

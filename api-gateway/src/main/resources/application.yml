@@ -32,10 +32,17 @@ spring:
             - Method=POST
           filters:
             - SetPath=/api/car
-        - id: car-service-all
+        - id: car-service-get
           uri: http://${CAR_SERVICE_BASEURL:localhost:8080}
           predicates:
             - Path=/cars
+            - Method=GET
+          filters:
+            - SetPath=/api/car
+        - id: car-service-all
+          uri: http://${CAR_SERVICE_BASEURL:localhost:8080}
+          predicates:
+            - Path=/cars/all
             - Method=GET
           filters:
             - SetPath=/api/car/all
@@ -43,5 +50,34 @@ spring:
           uri: http://${BOOKING_SERVICE_BASEURL:localhost:8081}
           predicates:
             - Path=/bookings
+            - Method=POST
           filters:
             - SetPath=/api/booking
+        - id: booking-service-get
+          uri: http://${BOOKING_SERVICE_BASEURL:localhost:8081}
+          predicates:
+            - Path=/bookings
+            - Method=GET
+          filters:
+            - SetPath=/api/booking
+        - id: booking-service-all
+          uri: http://${BOOKING_SERVICE_BASEURL:localhost:8081}
+          predicates:
+            - Path=/bookings/all
+            - Method=GET
+          filters:
+            - SetPath=/api/booking/all
+        - id: booking-service-put
+          uri: http://${BOOKING_SERVICE_BASEURL:localhost:8081}
+          predicates:
+            - Path=/bookings
+            - Method=PUT
+          filters:
+            - SetPath=/api/booking/update
+        - id: booking-service-delete
+          uri: http://${BOOKING_SERVICE_BASEURL:localhost:8081}
+          predicates:
+            - Path=/bookings
+            - Method=DELETE
+          filters:
+            - SetPath=/api/booking/delete

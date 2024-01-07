@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class FleetResponse {
+    private int id;
     private String licencePlate;
     private String location;
 }

@@ -33,7 +33,7 @@ public class BookingService {
     private String fleetServiceBaseUrl;
 
 
-    public void makeBooking(BookingRequest bookingRequest){
+    public boolean makeBooking(BookingRequest bookingRequest){
         Booking booking = new Booking();
         booking.setBookingReference(UUID.randomUUID().toString());
 
@@ -60,6 +60,7 @@ public class BookingService {
         booking.setDateTo(bookingRequest.getDateTo());
 
         bookingRepository.save(booking);
+        return true;
 
 
     }
@@ -69,13 +70,39 @@ public class BookingService {
 
         return bookings.stream()
                 .map(booking -> new BookingResponse(
+                        booking.getId(),
                         booking.getBookingReference(),
                         booking.getCar().getLicencePlate(),
+                        booking.getLocation(),
                         booking.getDateFrom(),
                         booking.getDateTo()
                 ))
                 .collect(Collectors.toList());
     }
+
+    public BookingResponse getBookingByReference(String bookingReference){
+        Booking booking = bookingRepository.findBookingByBookingReference(bookingReference);
+
+        return mapToBookingResponse(booking);
+
+    }
+
+    public void deleteBookingByReference(String bookingReference){
+        bookingRepository.deleteBookingByBookingReference(bookingReference);
+    }
+
+    public BookingResponse updateBooking(Booking booking){
+        Booking existingBooking = bookingRepository.findBookingByBookingReference(booking.getBookingReference());
+        existingBooking.setLocation(booking.getLocation());
+        existingBooking.setCar(booking.getCar());
+        existingBooking.setDateFrom(booking.getDateFrom());
+        existingBooking.setDateTo(booking.getDateTo());
+        bookingRepository.save(existingBooking);
+        return mapToBookingResponse(existingBooking);
+
+
+    }
+
 
     private Car mapToCar(CarResponse carResponse) {
         return Car.builder()
@@ -90,7 +117,10 @@ public class BookingService {
     private BookingResponse mapToBookingResponse(Booking booking) {
 
         BookingResponse bookingResponse = new BookingResponse();
+        bookingResponse.setId(booking.getId());
+        bookingResponse.setBookingReference(booking.getBookingReference());
         bookingResponse.setLicencePlate(booking.getCar().getLicencePlate());
+        bookingResponse.setLocation(booking.getLocation());
         bookingResponse.setDateFrom(booking.getDateFrom());
         bookingResponse.setDateTo(booking.getDateTo());
         return bookingResponse;
